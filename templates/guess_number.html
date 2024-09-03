@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>猜数字游戏</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+        input {
+            padding: 10px;
+            font-size: 16px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+        .attempts {
+            margin-top: 20px;
+            text-align: left;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+    <h1>猜数字游戏</h1>
+    <p>请输入一个不重复的四位数：</p>
+    <input type="text" id="guess-input" maxlength="4">
+    <button id="submit-btn" onclick="submitGuess()">提交猜测</button>
+    <button onclick="location.href='/'">返回</button>
+    <button id="reset-btn" style="display: none;" onclick="resetGame()">重新开始</button>
+    <p id="message"></p>
+    <div class="attempts" id="attempts-list"></div>
+
+    <script>
+        function submitGuess() {
+            const guess = document.getElementById('guess-input').value;
+            fetch('/guess', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: `guess=${guess}`
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    document.getElementById('message').innerText = data.error;
+                } else {
+                    document.getElementById('message').innerText = data.message || '';
+                    const attemptsList = document.getElementById('attempts-list');
+                    attemptsList.innerHTML = data.attempts.map(attempt =>
+                        `<p>猜测: ${attempt.guess} 结果: ${attempt.result}</p>`
+                    ).join('');
+
+                    // 如果游戏结束，显示重新开始按钮
+                    if (data.game_over) {
+                        document.getElementById('submit-btn').style.display = 'none';
+                        document.getElementById('reset-btn').style.display = 'inline-block';
+                    }
+                }
+            });
+        }
+
+        function resetGame() {
+            fetch('/reset', {
+                method: 'POST'
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('message').innerText = data.message;
+                document.getElementById('attempts-list').innerHTML = '';
+                document.getElementById('guess-input').value = '';
+                document.getElementById('submit-btn').style.display = 'inline-block';
+                document.getElementById('reset-btn').style.display = 'none';
+            });
+        }
+    </script>
+</body>
+</html>

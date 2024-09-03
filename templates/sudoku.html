@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>数独游戏</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        table {
+            border-collapse: collapse; /* 确保所有单元格边框连接在一起 */
+            border-spacing: 0;
+            margin: 20px auto;
+        }
+
+        input {
+            width: 100%;
+            height: 100%;
+            font-size: 18px;
+            text-align: center;
+            border: none;
+            outline: none;
+            box-sizing: border-box; /* 确保 input 的尺寸包含 padding 和 border */
+        }
+
+        input:not([readonly]) {
+            color: red;
+        }
+
+        td {
+            position: relative; /* 允许更精确地控制 input 的布局 */
+            padding: 0; /* 确保没有内边距影响 */
+            border: 1px solid #000; /* 设置所有边框 */
+            width: 40px;
+            height: 40px;
+            text-align: center;
+            box-sizing: border-box; /* 确保边框包含在尺寸内 */
+        }
+
+        td:nth-child(3n) {
+            border-right: 2px solid #000; /* 每第三列右边框加粗 */
+        }
+
+        tr:nth-child(3n) td {
+            border-bottom: 2px solid #000; /* 每第三行底边框加粗 */
+        }
+
+        tr:first-child td {
+            border-top: 2px solid #000; /* 第一行顶边框加粗 */
+        }
+
+        tr:last-child td {
+            border-bottom: 2px solid #000; /* 最后一行底边框加粗 */
+        }
+
+        td:first-child {
+            border-left: 2px solid #000; /* 第一列左边框加粗 */
+        }
+
+        td:last-child {
+            border-right: 2px solid #000; /* 最后一列右边框加粗 */
+        }
+
+        button, select {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+        }
+
+        #difficulty {
+            margin-bottom: 20px; /* 在选择难度和棋盘之间添加空隙 */
+        }
+
+    </style>
+</head>
+<body>
+<h1>数独游戏</h1>
+<p>选择难度：</p>
+<select id="difficulty" onchange="loadNewPuzzle()">
+    <option value="easy">简单</option>
+    <option value="medium" selected>中等</option>
+    <option value="hard">困难</option>
+</select>
+<table id="sudoku-board">
+    <!-- 数独棋盘将由 JavaScript 动态生成 -->
+</table>
+<button onclick="checkSudoku()">提交答案</button>
+<button onclick="resetGame()">重新开始</button>
+<button onclick="location.href='/'">返回</button>
+<p id="message"></p>
+
+<script>
+    let puzzle = [];
+
+    function createBoard(puzzle) {
+        const board = document.getElementById('sudoku-board');
+        board.innerHTML = '';  // 清空当前的棋盘
+        for (let i = 0; i < 9; i++) {
+            const row = document.createElement('tr');
+            for (let j = 0; j < 9; j++) {
+                const cell = document.createElement('td');
+                const input = document.createElement('input');
+                input.type = 'text';
+                input.maxLength = 1;
+                input.value = puzzle[i][j] !== 0 ? puzzle[i][j] : '';
+                input.readOnly = puzzle[i][j] !== 0; // 预设数字不可修改
+                cell.appendChild(input);
+                row.appendChild(cell);
+            }
+            board.appendChild(row);
+        }
+    }
+
+    function checkSudoku() {
+        const inputs = document.querySelectorAll('#sudoku-board input');
+        let userGrid = [];
+        let solved = true;
+
+        // 初始化用户填写的数独网格
+        for (let i = 0; i < 9; i++) {
+            userGrid.push([]);
+        }
+
+        // 填充用户输入的值到 userGrid 数组中
+        inputs.forEach((input, index) => {
+            const value = parseInt(input.value) || 0; // 如果未填写或非数字则为 0
+            const row = Math.floor(index / 9);
+            const col = index % 9;
+            userGrid[row][col] = value;
+        });
+
+        // 检查数独是否符合规则
+        function isValidSudoku(grid) {
+            // 检查行
+            for (let i = 0; i < 9; i++) {
+                let rowSet = new Set();
+                for (let j = 0; j < 9; j++) {
+                    if (grid[i][j] !== 0) {
+                        if (rowSet.has(grid[i][j])) return false;
+                        rowSet.add(grid[i][j]);
+                    }
+                }
+            }
+
+            // 检查列
+            for (let j = 0; j < 9; j++) {
+                let colSet = new Set();
+                for (let i = 0; i < 9; i++) {
+                    if (grid[i][j] !== 0) {
+                        if (colSet.has(grid[i][j])) return false;
+                        colSet.add(grid[i][j]);
+                    }
+                }
+            }
+
+            // 检查 3x3 宫格
+            for (let boxRow = 0; boxRow < 3; boxRow++) {
+                for (let boxCol = 0; boxCol < 3; boxCol++) {
+                    let boxSet = new Set();
+                    for (let i = 0; i < 3; i++) {
+                        for (let j = 0; j < 3; j++) {
+                            const currentValue = grid[boxRow * 3 + i][boxCol * 3 + j];
+                            if (currentValue !== 0) {
+                                if (boxSet.has(currentValue)) return false;
+                                boxSet.add(currentValue);
+                            }
+                        }
+                    }
+                }
+            }
+
+            return true;
+        }
+
+        // 检查用户填写的数独是否满足规则
+        if (isValidSudoku(userGrid)) {
+            document.getElementById('message').innerText = '恭喜！你解决了数独！';
+            inputs.forEach(input => input.style.backgroundColor = ''); // 清除所有标记
+        } else {
+            document.getElementById('message').innerText = '数独不完整或有错误，请检查！';
+            solved = false;
+
+            // 标记错误的单元格
+            inputs.forEach((input, index) => {
+                const value = parseInt(input.value) || 0;
+                const row = Math.floor(index / 9);
+                const col = index % 9;
+
+                // 如果输入的值违反数独规则，则标记
+                if (value !== 0 && !isValidPlacement(userGrid, row, col, value)) {
+                    input.style.backgroundColor = '#f8d7da'; // 错误标记
+                } else {
+                    input.style.backgroundColor = ''; // 清除标记
+                }
+            });
+        }
+    }
+
+    // 检查特定位置的数字是否符合数独规则
+    function isValidPlacement(grid, row, col, num) {
+        // 检查行
+        for (let j = 0; j < 9; j++) {
+            if (j !== col && grid[row][j] === num) return false;
+        }
+
+        // 检查列
+        for (let i = 0; i < 9; i++) {
+            if (i !== row && grid[i][col] === num) return false;
+        }
+
+        // 检查 3x3 宫格
+        const startRow = Math.floor(row / 3) * 3;
+        const startCol = Math.floor(col / 3) * 3;
+        for (let i = 0; i < 3; i++) {
+            for (let j = 0; j < 3; j++) {
+                if (
+                    (startRow + i !== row || startCol + j !== col) &&
+                    grid[startRow + i][startCol + j] === num
+                ) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
+    function loadNewPuzzle() {
+        const difficulty = document.getElementById('difficulty').value;
+        fetch(`/new-sudoku?difficulty=${difficulty}`)
+            .then(response => response.json())
+            .then(data => {
+                puzzle = data.puzzle;
+                createBoard(puzzle);
+                document.getElementById('message').innerText = '';
+            });
+    }
+
+    function resetGame() {
+        loadNewPuzzle();  // 重新加载一个新的数独棋盘
+    }
+
+    // 页面加载时自动生成一个默认难度的数独
+    window.onload = loadNewPuzzle;
+</script>
+</body>
+</html>

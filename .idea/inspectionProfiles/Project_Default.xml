@@ -1,0 +1,86 @@
+<component name="InspectionProjectProfileManager">
+  <profile version="1.0">
+    <option name="myName" value="Project Default" />
+    <inspection_tool class="PyPackageRequirementsInspection" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="ignoredPackages">
+        <value>
+          <list size="72">
+            <item index="0" class="java.lang.String" itemvalue="arrow" />
+            <item index="1" class="java.lang.String" itemvalue="marshmallow" />
+            <item index="2" class="java.lang.String" itemvalue="MarkupSafe" />
+            <item index="3" class="java.lang.String" itemvalue="dg_logging" />
+            <item index="4" class="java.lang.String" itemvalue="redis" />
+            <item index="5" class="java.lang.String" itemvalue="sentry-sdk" />
+            <item index="6" class="java.lang.String" itemvalue="pycryptodomex" />
+            <item index="7" class="java.lang.String" itemvalue="dg-s3fs" />
+            <item index="8" class="java.lang.String" itemvalue="pypinyin" />
+            <item index="9" class="java.lang.String" itemvalue="passlib" />
+            <item index="10" class="java.lang.String" itemvalue="dg-mq" />
+            <item index="11" class="java.lang.String" itemvalue="Flask-Log-Request-ID" />
+            <item index="12" class="java.lang.String" itemvalue="flask-restful-swagger" />
+            <item index="13" class="java.lang.String" itemvalue="Flask-Script" />
+            <item index="14" class="java.lang.String" itemvalue="cpca" />
+            <item index="15" class="java.lang.String" itemvalue="typing-extensions" />
+            <item index="16" class="java.lang.String" itemvalue="gunicorn" />
+            <item index="17" class="java.lang.String" itemvalue="Flask-SQLAlchemy" />
+            <item index="18" class="java.lang.String" itemvalue="zeep" />
+            <item index="19" class="java.lang.String" itemvalue="bcrypt" />
+            <item index="20" class="java.lang.String" itemvalue="simplejson" />
+            <item index="21" class="java.lang.String" itemvalue="pdfminer.six" />
+            <item index="22" class="java.lang.String" itemvalue="chinesecalendar" />
+            <item index="23" class="java.lang.String" itemvalue="redis-py-cluster" />
+            <item index="24" class="java.lang.String" itemvalue="dg-api-toolbox" />
+            <item index="25" class="java.lang.String" itemvalue="pypeln" />
+            <item index="26" class="java.lang.String" itemvalue="decorator" />
+            <item index="27" class="java.lang.String" itemvalue="signxml" />
+            <item index="28" class="java.lang.String" itemvalue="alembic" />
+            <item index="29" class="java.lang.String" itemvalue="python-Levenshtein" />
+            <item index="30" class="java.lang.String" itemvalue="yapf" />
+            <item index="31" class="java.lang.String" itemvalue="SQLAlchemy" />
+            <item index="32" class="java.lang.String" itemvalue="jsonref" />
+            <item index="33" class="java.lang.String" itemvalue="pdf_editor" />
+            <item index="34" class="java.lang.String" itemvalue="requests" />
+            <item index="35" class="java.lang.String" itemvalue="dg-sdk-rdb-client" />
+            <item index="36" class="java.lang.String" itemvalue="flask-swagger" />
+            <item index="37" class="java.lang.String" itemvalue="segno" />
+            <item index="38" class="java.lang.String" itemvalue="celery" />
+            <item index="39" class="java.lang.String" itemvalue="Flask-JWT-Extended" />
+            <item index="40" class="java.lang.String" itemvalue="SQLAlchemy-Utils" />
+            <item index="41" class="java.lang.String" itemvalue="Flask" />
+            <item index="42" class="java.lang.String" itemvalue="PyMuPDF" />
+            <item index="43" class="java.lang.String" itemvalue="marshmallow-sqlalchemy" />
+            <item index="44" class="java.lang.String" itemvalue="pdf2txt_decoder" />
+            <item index="45" class="java.lang.String" itemvalue="Flask-Cors" />
+            <item index="46" class="java.lang.String" itemvalue="markdown2" />
+            <item index="47" class="java.lang.String" itemvalue="datasketch" />
+            <item index="48" class="java.lang.String" itemvalue="Flask-HTTPAuth" />
+            <item index="49" class="java.lang.String" itemvalue="weasyprint" />
+            <item index="50" class="java.lang.String" itemvalue="xlwt" />
+            <item index="51" class="java.lang.String" itemvalue="python-redis-lock" />
+            <item index="52" class="java.lang.String" itemvalue="Flask-Compress" />
+            <item index="53" class="java.lang.String" itemvalue="jmespath" />
+            <item index="54" class="java.lang.String" itemvalue="pandas" />
+            <item index="55" class="java.lang.String" itemvalue="financial-beans" />
+            <item index="56" class="java.lang.String" itemvalue="environment" />
+            <item index="57" class="java.lang.String" itemvalue="Flask-Mail" />
+            <item index="58" class="java.lang.String" itemvalue="Flask-Migrate" />
+            <item index="59" class="java.lang.String" itemvalue="flask-smorest" />
+            <item index="60" class="java.lang.String" itemvalue="pylint" />
+            <item index="61" class="java.lang.String" itemvalue="diff_lib" />
+            <item index="62" class="java.lang.String" itemvalue="truepy" />
+            <item index="63" class="java.lang.String" itemvalue="aiohttp" />
+            <item index="64" class="java.lang.String" itemvalue="furl" />
+            <item index="65" class="java.lang.String" itemvalue="Flask-RESTful" />
+            <item index="66" class="java.lang.String" itemvalue="datagrand_license" />
+            <item index="67" class="java.lang.String" itemvalue="openpyxl" />
+            <item index="68" class="java.lang.String" itemvalue="confluent-kafka" />
+            <item index="69" class="java.lang.String" itemvalue="kombu" />
+            <item index="70" class="java.lang.String" itemvalue="gmssl" />
+            <item index="71" class="java.lang.String" itemvalue="cx_Oracle" />
+          </list>
+        </value>
+      </option>
+    </inspection_tool>
+    <inspection_tool class="TsLint" enabled="true" level="WARNING" enabled_by_default="true" />
+  </profile>
+</component>
