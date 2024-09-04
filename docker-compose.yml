@@ -9,3 +9,5 @@ services:
       - redis
   redis:
     image: "redis:alpine"
+    ports:
+      - "6397:6397"
