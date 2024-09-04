@@ -1,0 +1,11 @@
+services:
+  games:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      - FLASK_ENV=production
+    depends_on:
+      - redis
+  redis:
+    image: "redis:alpine"

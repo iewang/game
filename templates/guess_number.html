@@ -11,15 +11,18 @@
             text-align: center;
             margin-top: 50px;
         }
+
         input {
             padding: 10px;
             font-size: 16px;
         }
+
         button {
             padding: 10px 20px;
             font-size: 16px;
             margin-top: 10px;
         }
+
         .attempts {
             margin-top: 20px;
             text-align: left;
@@ -28,25 +31,42 @@
     </style>
 </head>
 <body>
-    <h1>猜数字游戏</h1>
-    <p>请输入一个不重复的四位数：</p>
-    <input type="text" id="guess-input" maxlength="4">
-    <button id="submit-btn" onclick="submitGuess()">提交猜测</button>
-    <button onclick="location.href='/'">返回</button>
-    <button id="reset-btn" style="display: none;" onclick="resetGame()">重新开始</button>
-    <p id="message"></p>
-    <div class="attempts" id="attempts-list"></div>
+<h1>猜数字游戏</h1>
+<p>请输入一个不重复的四位数：</p>
+<label for="guess-input"></label><input type="text" id="guess-input" maxlength="4">
+<button id="submit-btn" onclick="submitGuess()">提交猜测</button>
+<button onclick="resetGuess()">重新开始</button>
+<button onclick="resetAndReturn()">返回</button>
+<button id="reset-btn" style="display: none;" onclick="resetGame()">再来一局</button>
+<p id="message"></p>
 
-    <script>
-        function submitGuess() {
-            const guess = document.getElementById('guess-input').value;
-            fetch('/guess', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                },
-                body: `guess=${guess}`
-            })
+<div class="attempts" id="attempts-list"></div>
+
+<script>
+    // 监听 beforeunload 事件
+    function handleBeforeUnload(event) {
+        // 设置确认消息
+        event.preventDefault();
+        event.returnValue = ''; // 必须设置 returnValue 来触发提示
+    }
+
+    // 添加事件监听
+    window.addEventListener('beforeunload', handleBeforeUnload);
+
+    // 允许页面卸载的函数，用于移除监听器
+    function allowPageUnload() {
+        window.removeEventListener('beforeunload', handleBeforeUnload);
+    }
+
+    function submitGuess() {
+        const guess = document.getElementById('guess-input').value;
+        fetch('/guess', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: `guess=${guess}`
+        })
             .then(response => response.json())
             .then(data => {
                 if (data.error) {
@@ -65,12 +85,13 @@
                     }
                 }
             });
-        }
+    }
 
-        function resetGame() {
-            fetch('/reset', {
-                method: 'POST'
-            })
+    function resetGame() {
+        allowPageUnload();  // 移除刷新警告监听器
+        fetch('/reset', {
+            method: 'POST'
+        })
             .then(response => response.json())
             .then(data => {
                 document.getElementById('message').innerText = data.message;
@@ -79,7 +100,32 @@
                 document.getElementById('submit-btn').style.display = 'inline-block';
                 document.getElementById('reset-btn').style.display = 'none';
             });
-        }
-    </script>
+    }
+
+    function resetGuess() {
+        allowPageUnload();  // 移除刷新警告监听器
+        fetch('/reset', { method: 'POST' })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // 更新 UI 以反映新的游戏状态
+                    document.getElementById('message').innerText = '游戏已重新开始！';
+                    // 清空猜测记录
+                    document.getElementById('attempts-list').innerHTML = '';
+                } else {
+                    document.getElementById('message').innerText = '无法重置游戏，请重试！';
+                }
+            });
+    }
+
+    function resetAndReturn() {
+        allowPageUnload();  // 移除刷新警告监听器
+        fetch('/reset', { method: 'POST' })
+            .then(() => {
+                document.getElementById('attempts-list').innerHTML = '';
+                window.location.href = '/';
+            });
+    }
+</script>
 </body>
 </html>
