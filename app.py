@@ -1,12 +1,13 @@
 from flask import Flask, render_template, request, jsonify
 from sudoku import create_sudoku
+from config import REDIS_PORT
 import random
 import redis
 import json
 
 app = Flask(__name__)
 
-r = redis.Redis(host='redis', port=6379, db=0)
+r = redis.Redis(host='redis', port=REDIS_PORT, db=0)
 
 
 # 生成一个随机的四位数，所有位数不同

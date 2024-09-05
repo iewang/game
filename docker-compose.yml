@@ -5,9 +5,10 @@ services:
       - "8000:8000"
     environment:
       - FLASK_ENV=production
+      - REDIS_PORT=6379
     depends_on:
       - redis
   redis:
     image: "redis:alpine"
     ports:
-      - "6397:6397"
+      - "6379:6379"
