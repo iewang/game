@@ -59,7 +59,8 @@
     }
 
     function submitGuess() {
-        const guess = document.getElementById('guess-input').value;
+        const guessInput = document.getElementById('guess-input');
+        const guess = guessInput.value;
         fetch('/guess', {
             method: 'POST',
             headers: {
@@ -84,6 +85,8 @@
                         document.getElementById('reset-btn').style.display = 'inline-block';
                     }
                 }
+                // 清空输入框
+                guessInput.value = '';
             });
     }
 
