@@ -1,2 +1,1 @@
-### start service
-- docker-compose up -d
+### 使用tkinter构建的一个简单的连连看游戏
